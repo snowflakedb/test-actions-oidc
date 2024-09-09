@@ -1,0 +1,32 @@
+name: Fetch Secrets from AWS Secrets Manager
+
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write  
+  contents: read
+
+jobs:
+  fetch-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials from OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::630102054447:role/test-oidc-actions-secret-role
+          aws-region: us-east-2
+
+      - name: Fetch secret from AWS Secrets Manager
+        id: fetch-secret
+        run: |
+          secret_value=$(aws secretsmanager get-secret-value --secret-id test-github-actions-secret --query SecretString --output text)
+          echo "Secret Value: $secret_value"
+
+      - name: Use the secret
+        run: |
+          echo "Using secret in the job: ${{ steps.fetch-secret.outputs.secret_value }}"
