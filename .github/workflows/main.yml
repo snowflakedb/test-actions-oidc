@@ -34,3 +34,5 @@ jobs:
       - name : Use the secret
         run: |
           echo "Using secret in the job: ${{ steps.fetch-secret.outputs.secret_value }}"
+          echo "SECRETS=${{ steps.fetch-secret.outputs.secret_value }}" >> $GITHUB_ENV  # Store the secret in an environment variable
+          python my_script.py
