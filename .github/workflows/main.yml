@@ -25,7 +25,7 @@ jobs:
         run: |
           secret_value=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.SECRET_NAME }} --query SecretString --output text)
           echo "$secret_value"
-          echo "SECRET_VALUE=$secret_value" >> $GITHUB_ENV
+          echo "::add-mask:: SECRET_VALUE=$secret_value" >> $GITHUB_ENV
 
       - name: Set up Python environment
         uses: actions/setup-python@v5 
