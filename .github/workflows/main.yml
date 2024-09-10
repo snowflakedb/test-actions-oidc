@@ -18,13 +18,13 @@ jobs:
       - name: Configure AWS credentials from OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::630102054447:role/test-oidc-actions-secret-role
-          aws-region: us-east-2
+          role-to-assume: ${{ secrets.ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Fetch secret from AWS Secrets Manager
         id: fetch-secret
         run: |
-          secret_value=$(aws secretsmanager get-secret-value --secret-id test-github-actions-secret --query SecretString --output text)
+          secret_value=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.SECRET_NAME }} --query SecretString --output text)
           echo "::set-output name=secret_value::$secret_value"
 
       - name: Use the secret
