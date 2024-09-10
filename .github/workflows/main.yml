@@ -28,5 +28,8 @@ jobs:
           echo "::set-output name=secret_value::$secret_value"
 
       - name: Use the secret
+        uses: actions/setup-python@v5 
+        with:
+          python-version: '3.10'
         run: |
           echo "Using secret in the job: ${{ steps.fetch-secret.outputs.secret_value }}"
