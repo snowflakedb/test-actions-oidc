@@ -34,3 +34,4 @@ jobs:
       - name : Use the secret
         run: |
           echo "Using secret in the job: ${{ steps.fetch-secret.outputs.secret_value }}"
+git branch
