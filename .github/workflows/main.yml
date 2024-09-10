@@ -27,6 +27,10 @@ jobs:
           secret_value=$(aws secretsmanager get-secret-value --secret-id ${{ secrets.SECRET_NAME }} --query SecretString --output text)
           echo "::set-output name=secret_value::$secret_value"
 
-      - name: Use the secret
+      - name: setup environment
+        uses: actions/setup-python@v5 
+        with:
+          python-version: '3.10'
+      - name : Use the secret
         run: |
           echo "Using secret in the job: ${{ steps.fetch-secret.outputs.secret_value }}"
